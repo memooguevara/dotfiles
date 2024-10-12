@@ -3,11 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
+    nix-colors.url = "github:misterio77/nix-colors";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +26,6 @@
   let
     inherit (self) outputs;
     system = "x86_64-linux";
-    #pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
     pkgs = import nixpkgs {
       inherit system;
       overlays = [ alacritty-theme.overlays.default ];
