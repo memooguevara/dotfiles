@@ -1,5 +1,5 @@
 {
-  description = "Top level NixOS Flake";
+  description = "My nix config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -7,30 +7,44 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      #url = "path:/home/jguevara/nix-neovim";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, alacritty-theme, nixvim, ... }:
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs:
   let
+    inherit (self) outputs;
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      overlays = [ alacritty-theme.overlays.default ];
-    };
+    pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
   in {
-   homeConfigurations = {
-     jguevara = home-manager.lib.homeManagerConfiguration {
-       inherit pkgs;
-       modules = [ 
-         ./home
-         nixvim.homeManagerModules.nixvim
-       ];
-     };
-   };
+    # NixOS configuration entrypoint
+    # Available through 'nixos-rebuild --flake .#ophiuchus'
+    nixosConfigurations = {
+      ophiuchus = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs outputs; };
+        modules = [ 
+	  ./hosts/ophiuchus/configuration.nix
+	];
+      };
+    };
+
+    # Standalone home-manager configuration entrypoint
+    # Available through 'home-manager --flake .#jguevara@ophiuchus'
+    homeConfigurations = {
+      "jguevara@ophiuchus" = home-manager.lib.homeManagerConfiguration {
+	inherit pkgs;
+        extraSpecialArgs = { inherit inputs outputs; };
+        modules = [ 
+	  ./hosts/ophiuchus/home.nix
+	];
+      };
+    };
   };
 }
