@@ -24,6 +24,7 @@
     };
     shellAliases = {
       ls = "ls --color";
+      lg = "lazygit";
     };
   };
 }
