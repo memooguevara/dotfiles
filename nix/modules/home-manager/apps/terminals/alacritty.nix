@@ -6,7 +6,7 @@
     settings = {
       import = with pkgs; [ alacritty-theme.tokyo-night ];
       font = {
-        normal.family = "JetBrainsMono NFM";
+        normal.family = "IosevkaTerm NFM";
 	size = 18;
       };
       window.opacity = 0.95;
