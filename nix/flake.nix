@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,12 +18,17 @@
     self,
     nixpkgs,
     home-manager,
+    alacritty-theme,
     ...
   } @ inputs:
   let
     inherit (self) outputs;
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
+    #pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [ alacritty-theme.overlays.default ];
+    };
   in {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#ophiuchus'

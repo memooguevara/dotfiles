@@ -4,6 +4,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
+      import = with pkgs; [ alacritty-theme.tokyo-night ];
       font = {
         normal.family = "JetBrainsMono NFM";
 	size = 18;
