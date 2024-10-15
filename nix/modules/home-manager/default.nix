@@ -8,7 +8,6 @@
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "IosevkaTerm" ]; })
     curl
-    lazygit
     neofetch
   ];
 }
