@@ -23,7 +23,7 @@
       '';
     };
     shellAliases = {
-      ls = "ls --color";
+      ls = "eza --icons";
       lg = "lazygit";
     };
   };
