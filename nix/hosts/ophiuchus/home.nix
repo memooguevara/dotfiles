@@ -52,6 +52,7 @@
       color-scheme = "prefer-dark";
     };
     "org/gnome/shell" = {
+      favorite-apps = [ "google-chrome.desktop" "Alacritty.desktop" ];
       enabled-extensions = [
          "caffeine@patapon.info"
       ];
