@@ -1,8 +1,14 @@
-{ inputs, lib, config, pkgs, ... }:
-
 {
+  inputs,
+  pkgs,
+  ...
+}: {
+  home.packages = [
+    inputs.nixvim.packages.${pkgs.system}.default
+  ];
+
   programs.neovim = {
-    enable = true;
+    enable = false;
     defaultEditor = true;
   };
 }

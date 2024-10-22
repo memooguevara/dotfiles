@@ -14,6 +14,10 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "path:/home/jguevara/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -22,23 +26,22 @@
     home-manager,
     alacritty-theme,
     ...
-  } @ inputs:
-  let
+  } @ inputs: let
     inherit (self) outputs;
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      overlays = [ alacritty-theme.overlays.default ];
+      overlays = [alacritty-theme.overlays.default];
     };
   in {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#ophiuchus'
     nixosConfigurations = {
       ophiuchus = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; };
-        modules = [ 
-	  ./hosts/ophiuchus/configuration.nix
-	];
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/ophiuchus/configuration.nix
+        ];
       };
     };
 
@@ -46,11 +49,11 @@
     # Available through 'home-manager --flake .#jguevara@ophiuchus'
     homeConfigurations = {
       "jguevara@ophiuchus" = home-manager.lib.homeManagerConfiguration {
-	inherit pkgs;
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = [ 
-	  ./hosts/ophiuchus/home.nix
-	];
+        inherit pkgs;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/ophiuchus/home.nix
+        ];
       };
     };
   };
