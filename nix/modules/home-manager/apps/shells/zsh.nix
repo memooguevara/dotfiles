@@ -1,5 +1,3 @@
-{ inputs, lib, config, pkgs, ... }:
-
 {
   programs.zsh = {
     enable = true;
@@ -16,14 +14,14 @@
       enable = true;
       plugins = [
         "git"
-	"command-not-found"
+        "command-not-found"
       ];
       theme = "af-magic";
       extraConfig = ''
       '';
     };
     shellAliases = {
-      ls = "eza --icons";
+      ls = "eza --icons --grid";
       lg = "lazygit";
     };
   };
