@@ -74,7 +74,7 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
       binding = "<Primary><Alt>b";
-      command = "firefox";
+      command = "google-chrome-stable";
       name = "Open browser";
     };
   };
