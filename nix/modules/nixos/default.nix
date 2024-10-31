@@ -1,16 +1,16 @@
-{ inputs, lib, config, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     curl
   ];
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-  programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+  programs = {
+    zsh.enable = true;
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+    };
+  };
 }
